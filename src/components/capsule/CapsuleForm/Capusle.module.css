@@ -1,0 +1,197 @@
+.modalContainer {
+  padding: 24px;
+  /* max-width: 600px; */
+  background: #ffffff;
+  /* border-radius: 8px; */
+  /* box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); */
+  color: #333333;
+  font-family: "Inter", sans-serif;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 16px;
+  font-weight: 700;
+  color: #222222;
+}
+
+.label {
+  font-weight: 600;
+  margin-top: 16px;
+  color: #333333;
+  display: block;
+  font-size: 14px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  border-radius: 6px;
+  border: 1px solid #cccccc;
+  color: #222222;
+  background-color: #fafafa;
+  font-size: 14px;
+}
+
+.input:focus {
+  border-color: #4a90e2;
+  outline: none;
+  background-color: #ffffff;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  border-radius: 6px;
+  border: 1px solid #cccccc;
+  color: #222222;
+  background-color: #fafafa;
+  font-size: 14px;
+  resize: vertical;
+}
+
+.textarea:focus {
+  border-color: #4a90e2;
+  outline: none;
+  background-color: #ffffff;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.sectionLabel {
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #333333;
+  font-size: 14px;
+}
+
+.colorRow {
+  display: flex;
+  gap: 8px;
+}
+
+.colorCircle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #cccccc;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.colorCircle.active {
+  border: 2px solid #4a90e2;
+}
+
+.emojiRow {
+  display: flex;
+  gap: 8px;
+}
+
+.emojiButton {
+  background: transparent;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+  color: #555555;
+  transition: color 0.2s ease, border-bottom 0.2s ease;
+}
+
+.emojiButton:hover {
+  color: #4a90e2;
+}
+
+.emojiButton.active {
+  border-bottom: 2px solid #4a90e2;
+  color: #4a90e2;
+}
+
+.attachments {
+  margin-bottom: 16px;
+}
+
+.attachmentRow {
+  display: flex;
+  gap: 12px;
+}
+
+.attachmentBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px dashed #cccccc;
+  padding: 8px 12px;
+  background: #f5f5f5;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #333333;
+  font-size: 14px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.attachmentBtn:hover {
+  background: #eaeaea;
+  border-color: #4a90e2;
+}
+
+.privacyOptions {
+  margin-bottom: 16px;
+}
+
+.radioLabel {
+  display: block;
+  margin-bottom: 8px;
+  cursor: pointer;
+  color: #333333;
+  font-size: 14px;
+}
+
+.toggleLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  color: #333333;
+  font-size: 14px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.actions button {
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.actions button:first-child {
+  background: #f0f0f0;
+  color: #333333;
+}
+
+.actions button:first-child:hover {
+  background: #e0e0e0;
+}
+
+.actions button:last-child {
+  background: #4a90e2;
+  color: #ffffff;
+}
+
+.actions button:last-child:hover {
+  background: #357ab8;
+}
