@@ -1,0 +1,95 @@
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: repeating-linear-gradient(
+    90deg,
+    #e6f0f5,
+    #e6f0f5 40px,
+    #d2e3ea 40px,
+    #d2e3ea 80px
+  );
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #222;
+}
+
+.authBox {
+  width: 400px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid #4a90e2;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.tab {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+  border-bottom: 2px solid transparent;
+}
+
+.tab:hover {
+  color: #4a90e2;
+}
+
+.active {
+  border-bottom: 2px solid #4a90e2;
+  color: #4a90e2;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 0.3rem;
+  font-size: 0.95rem;
+}
+
+.submit {
+  background: linear-gradient(90deg, #28a745, #34ce57);
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 1rem;
+  transition: background 0.3s;
+}
+
+.submit:hover {
+  background: linear-gradient(90deg, #218838, #28a745);
+}

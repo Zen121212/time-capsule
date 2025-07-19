@@ -1,0 +1,54 @@
+.container {
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  color: black;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.revealInfo {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.message {
+  font-size: 1.125rem;
+  white-space: pre-line;
+}
+
+.emojiRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.emoji {
+  font-size: 2.25rem;
+}
+
+.colorSwatch {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+}
+
+.details {
+  font-size: 0.8;
+  color: #4b5563;
+}
+
+.details p {
+  margin: 0.25rem 0;
+}
+
+.strong {
+  font-weight: 600;
+}
