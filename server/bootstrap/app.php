@@ -12,7 +12,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Force JSON responses for all API routes
+        $middleware->api(append: [
+            App\Http\Middleware\ForceJsonResponse::class,
+            App\Http\Middleware\Cors::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
