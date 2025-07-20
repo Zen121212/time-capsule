@@ -3,9 +3,6 @@ import Modal from "../../common/Modal/Modal";
 import Button from "../../common/Button/Button";
 import styles from "./Capusle.module.css";
 import { FaImage, FaMicrophone, FaStickyNote } from "react-icons/fa";
-import { useEffect } from "react";
-import { getCurrentPosition, reverseGeocode } from "../../../utils/geolocation";
-import { getPublicIp } from "../../../utils/network";
 
 const colors = ["#5A4FFF", "#F7A72B", "#47CF73", "#DD2D6C", "#AC58FF"];
 const emojis = ["🌟", "💕", "🎯", "🎓", "🌈", "🔥"];
@@ -18,31 +15,10 @@ export default function CreateCapsuleModal({ isOpen, onClose, onSubmit }) {
   const [revealDate, setRevealDate] = useState("");
   const [privacy, setPrivacy] = useState("Private");
   const [surpriseMode, setSurpriseMode] = useState(false);
-  const [location, setLocation] = useState(null);
-  const [ipAddress, setIpAddress] = useState("");
-
-  useEffect(() => {
-    if (!isOpen) return;
-    getCurrentPosition()
-      .then((coords) => {
-        return reverseGeocode(coords.latitude, coords.longitude);
-      })
-      .then((locationString) => {
-        setLocation(locationString);
-      })
-      .catch((err) => {
-        console.error(err);
-        setLocation("Permission denied");
-      });
-
-    getPublicIp().then((ip) => {
-      setIpAddress(ip);
-    });
-  }, [isOpen]);
 
   const handleCreate = () => {
     if (!revealDate) {
-      alert("Username is required!");
+      alert("Reveal date is required!");
       return;
     }
     const data = {
@@ -53,8 +29,6 @@ export default function CreateCapsuleModal({ isOpen, onClose, onSubmit }) {
       revealDate,
       privacy,
       surpriseMode,
-      location, // { latitude, longitude }
-      ipAddress, // string
     };
     onSubmit(data);
     console.log(data);

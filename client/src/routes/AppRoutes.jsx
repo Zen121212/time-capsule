@@ -11,6 +11,7 @@ export default function AppRoutes() {
       <Route path="/dashboard" element={<Dasboard />} />
       <Route path="/public-wall" element={<PublicWall />} />
       <Route path="/capsule/:id" element={<CapsuleDetail />} />
+      <Route path="/capsule/unlisted/:token" element={<CapsuleDetail />} />
     </Routes>
   );
 }

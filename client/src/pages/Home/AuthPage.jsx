@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { authService } from "../../services/authService.js";
 import styles from "./AuthPage.module.css";
 
 function AuthPage() {
@@ -12,6 +13,8 @@ function AuthPage() {
     password: "",
     confirmPassword: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     // ✅ Check if user already logged in
@@ -28,45 +31,57 @@ function AuthPage() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
 
-    if (activeTab === "register") {
-      console.log("Register data:", formData);
+    try {
+      if (activeTab === "register") {
+        // Validate password match on frontend
+        if (formData.password !== formData.confirmPassword) {
+          setError("Passwords do not match!");
+          setLoading(false);
+          return;
+        }
 
-      // Optional: validate password match
-      if (formData.password !== formData.confirmPassword) {
-        alert("Passwords do not match!");
-        return;
+        console.log("Attempting to register:", {
+          fullName: formData.fullName,
+          email: formData.email,
+        });
+
+        const result = await authService.register(formData);
+
+        if (result.success) {
+          console.log("Registration successful:", result.user);
+          navigate("/dashboard");
+        } else {
+          setError(result.message);
+        }
+      } else {
+        console.log("Attempting to login:", {
+          email: formData.email,
+        });
+
+        const result = await authService.login({
+          email: formData.email,
+          password: formData.password,
+        });
+
+        if (result.success) {
+          console.log("Login successful:", result.user);
+          console.log("Attempting to navigate to dashboard...");
+          navigate("/dashboard");
+        } else {
+          console.log("Login failed:", result.message);
+          setError(result.message);
+        }
       }
-
-      // Simulate user creation response
-      const newUser = {
-        id: Date.now(), // fake user id
-        fullName: formData.fullName,
-        email: formData.email,
-      };
-
-      // ✅ Save user in localStorage
-      localStorage.setItem("user", JSON.stringify(newUser));
-
-      // ✅ Redirect to dashboard
-      navigate("/dashboard");
-    } else {
-      console.log("Login data:", {
-        email: formData.email,
-        password: formData.password,
-      });
-
-      // Simulate fetching user from a database
-      const fakeUser = {
-        id: "123",
-        fullName: "Test User",
-        email: formData.email,
-      };
-
-      localStorage.setItem("user", JSON.stringify(fakeUser));
-      navigate("/dashboard");
+    } catch (error) {
+      console.error("Auth error:", error);
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -92,6 +107,7 @@ function AuthPage() {
             Login
           </button>
         </div>
+        {error && <div className={styles.error}>{error}</div>}
         <form className={styles.form} onSubmit={handleSubmit}>
           {activeTab === "register" && (
             <>
@@ -147,8 +163,12 @@ function AuthPage() {
               />
             </label>
           )}
-          <button type="submit" className={styles.submit}>
-            {activeTab === "register" ? "Register" : "Login"}
+          <button type="submit" className={styles.submit} disabled={loading}>
+            {loading
+              ? "Processing..."
+              : activeTab === "register"
+              ? "Register"
+              : "Login"}
           </button>
         </form>
       </div>

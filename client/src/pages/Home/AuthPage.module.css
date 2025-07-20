@@ -93,3 +93,22 @@
 .submit:hover {
   background: linear-gradient(90deg, #218838, #28a745);
 }
+
+.submit:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.submit:disabled:hover {
+  background: #ccc;
+}
+
+.error {
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
