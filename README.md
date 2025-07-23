@@ -112,6 +112,5 @@ npm run preview
 - View all your capsules in the **Dashboard**
 - See statistics about total capsules, opened ones, and upcoming reveals
 - Click on any capsule to view its full details
-- Edit or delete capsules as needed
 
 _Start preserving your memories today with Time Capsule App! ⏳✨_
