@@ -1,15 +1,14 @@
 .modalContainer {
+  padding-top: 0;
   padding: 24px;
-  /* max-width: 600px; */
   background: #ffffff;
-  /* border-radius: 8px; */
-  /* box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); */
   color: #333333;
   font-family: "Inter", sans-serif;
 }
 
 .title {
   font-size: 24px;
+  margin-top: 0;
   margin-bottom: 16px;
   font-weight: 700;
   color: #222222;
@@ -21,6 +20,14 @@
   color: #333333;
   display: block;
   font-size: 14px;
+}
+
+.inputGroup {
+  max-width: calc(100% - 28px);
+}
+
+.inputGroupSpec {
+  width: 100%;
 }
 
 .input {
@@ -164,7 +171,7 @@
 
 .actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   gap: 12px;
 }
 
@@ -183,15 +190,37 @@
   color: #333333;
 }
 
-.actions button:first-child:hover {
-  background: #e0e0e0;
-}
-
 .actions button:last-child {
-  background: #4a90e2;
+  background: #33b249;
   color: #ffffff;
 }
 
-.actions button:last-child:hover {
-  background: #357ab8;
+.markdownContainer {
+  margin-bottom: 16px;
+}
+
+/* Override markdown editor styles */
+.markdownContainer :global(.w-md-editor) {
+  background-color: #fafafa;
+}
+
+.markdownContainer :global(.w-md-editor.w-md-editor-focus) {
+  background-color: #ffffff;
+  border-color: #4a90e2;
+}
+
+.markdownContainer :global(.w-md-editor-text-textarea),
+.markdownContainer :global(.w-md-editor-text) {
+  font-size: 14px !important;
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+}
+
+.markdownContainer :global(.w-md-editor-text-input),
+.markdownContainer :global(.w-md-editor-text-textarea) {
+  color: #222222 !important;
+}
+
+.markdownContainer :global(.wmde-markdown) {
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+  color: #222222 !important;
 }

@@ -14,15 +14,12 @@ class TimeCapsuleSeeder extends Seeder
      */
     public function run(): void
     {
-        // Get all users to assign time capsules to them
         $users = User::all();
         
         if ($users->count() === 0) {
             $this->command->warn('No users found. Please run UserSeeder first.');
             return;
         }
-        
-        // Create 3-5 time capsules for each user
         foreach ($users as $user) {
             TimeCapsule::factory(
                 fake()->numberBetween(3, 5)
@@ -30,11 +27,16 @@ class TimeCapsuleSeeder extends Seeder
                 'user_id' => $user->id,
             ]);
         }
-        
-        // Create some specific public time capsules for testing
         TimeCapsule::factory(5)->create([
             'user_id' => $users->random()->id,
             'is_public' => true,
+            'title' => fake()->sentence(4, true),
+        ]);
+        
+        TimeCapsule::factory(8)->create([
+            'user_id' => $users->random()->id,
+            'is_public' => true,
+            'reveal_date' => fake()->dateTimeBetween('-6 months', '-1 day')->format('Y-m-d H:i:s'),
             'title' => fake()->sentence(4, true),
         ]);
     }

@@ -19,7 +19,7 @@ class UserFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            'password' => bcrypt('password123'), // Default password for all test users
+            'password' => bcrypt('password123'),
             'created_at' => fake()->dateTimeBetween('-1 year', 'now'),
         ];
     }

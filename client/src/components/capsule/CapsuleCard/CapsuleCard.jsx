@@ -1,4 +1,3 @@
-import Button from "../../common/Button/Button";
 import {
   FaLock,
   FaGlobe,
@@ -12,11 +11,15 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import styles from "./CapsuleCard.module.css";
 import { getDaysLeft } from "../../../utils/dateConverter";
+import MDEditor from "@uiw/react-md-editor";
+import "@uiw/react-md-editor/markdown-editor.css";
+import "@uiw/react-markdown-preview/markdown.css";
+import Countdown from "../../Countdown/Countdown";
 
-function CapsuleCard({ capsule, onEdit, onDelete }) {
+function CapsuleCard({ capsule }) {
   const navigate = useNavigate();
   const [copySuccess, setCopySuccess] = useState(false);
-  
+
   const privacyIcons = {
     Private: FaLock,
     Public: FaGlobe,
@@ -25,33 +28,37 @@ function CapsuleCard({ capsule, onEdit, onDelete }) {
   const Icon = privacyIcons[capsule.privacy];
 
   const daysLeft = getDaysLeft(capsule.revealDate);
+  const isRevealed = daysLeft !== null && daysLeft <= 0;
 
   const privacyClass = capsule.isPublic
     ? styles.privacyPublic
     : styles.privacyPrivate;
 
   const handleCardClick = () => {
+    if (!isRevealed) {
+      return;
+    }
     navigate(`/capsule/${capsule.id}`);
   };
-  
+
   const handleShareClick = async (e) => {
-    e.stopPropagation(); // Prevent card click
-    
+    e.stopPropagation();
+
     if (capsule.privacy === "Unlisted" && capsule.unlistedToken) {
       const shareUrl = `${window.location.origin}/capsule/unlisted/${capsule.unlistedToken}`;
-      
+
       try {
         await navigator.clipboard.writeText(shareUrl);
         setCopySuccess(true);
-        setTimeout(() => setCopySuccess(false), 2000); // Reset after 2 seconds
+        setTimeout(() => setCopySuccess(false), 2000);
       } catch (err) {
-        console.error('Failed to copy to clipboard:', err);
-        // Fallback: select the text
-        const textArea = document.createElement('textarea');
+        console.error("Failed to copy to clipboard:", err);
+
+        const textArea = document.createElement("textarea");
         textArea.value = shareUrl;
         document.body.appendChild(textArea);
         textArea.select();
-        document.execCommand('copy');
+        document.execCommand("copy");
         document.body.removeChild(textArea);
         setCopySuccess(true);
         setTimeout(() => setCopySuccess(false), 2000);
@@ -60,7 +67,10 @@ function CapsuleCard({ capsule, onEdit, onDelete }) {
   };
 
   return (
-    <div className={styles.card} onClick={handleCardClick} style={{ cursor: 'pointer' }}>
+    <div
+      className={`${styles.card} ${!isRevealed ? styles.unrevealed : ""}`}
+      onClick={handleCardClick}
+    >
       <div
         className={styles.circle}
         style={{ backgroundColor: capsule.color || "#eee" }}
@@ -74,25 +84,23 @@ function CapsuleCard({ capsule, onEdit, onDelete }) {
             {Icon && <Icon />}
           </span>
         </div>
-        <p className={styles.description}>{capsule.message}</p>
+        <div
+          className={`${styles.description} ${
+            !isRevealed ? styles.blurred : ""
+          }`}
+        >
+          <div data-color-mode="light">
+            <MDEditor.Markdown source={capsule.message} />
+          </div>
+        </div>
         {capsule.privacy === "Unlisted" && capsule.unlistedToken && (
-          <div style={{ marginTop: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          <div className={styles.shareContainer}>
             <strong>Share:</strong>
             <button
               onClick={handleShareClick}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.25rem",
-                padding: "0.25rem 0.5rem",
-                background: copySuccess ? "#10b981" : "#3b82f6",
-                color: "white",
-                border: "none",
-                borderRadius: "4px",
-                fontSize: "0.8rem",
-                cursor: "pointer",
-                transition: "background-color 0.2s"
-              }}
+              className={`${styles.shareButton} ${
+                copySuccess ? styles.copied : ""
+              }`}
               title={copySuccess ? "Copied to clipboard!" : "Copy share link"}
             >
               {copySuccess ? <FaCopy /> : <FaShare />}
@@ -107,43 +115,20 @@ function CapsuleCard({ capsule, onEdit, onDelete }) {
             </span>
             <span>{capsule.location || "N/A"}</span>
           </p>
-          <p>
-            <span>
-              <FaClock />
-            </span>
-            <span>
-              {daysLeft !== null && (
-                <>
-                  {daysLeft > 0
-                    ? `${daysLeft} day(s) left until reveal!`
-                    : daysLeft === 0
-                    ? "Today is the reveal day!"
-                    : "Revealed"}
-                </>
-              )}
-            </span>
-          </p>
+          <div className={styles.countdownContainer}>
+            <FaClock />
+            <Countdown
+              revealDate={capsule.revealDate}
+              isRevealed={isRevealed}
+            />
+          </div>
         </div>
-        
-        {/* Show author for public capsules */}
         {capsule.user && (
-          <div style={{ 
-            marginTop: '0.5rem',
-            fontSize: '0.8rem',
-            color: '#888',
-            fontStyle: 'italic'
-          }}>
+          <div className={styles.authorInfo}>
             Created by {capsule.user.name}
           </div>
         )}
       </div>
-
-      {(onEdit || onDelete) && (
-        <div className={styles.actions} onClick={(e) => e.stopPropagation()}>
-          {onEdit && <Button label="Edit" variant="secondary" onClick={onEdit} />}
-          {onDelete && <Button label="Delete" variant="danger" onClick={onDelete} />}
-        </div>
-      )}
     </div>
   );
 }

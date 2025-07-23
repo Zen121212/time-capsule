@@ -1,8 +1,13 @@
 import { useState } from "react";
 import Modal from "../../common/Modal/Modal";
 import Button from "../../common/Button/Button";
+import ValidationPopup from "../../common/ValidationPopup/ValidationPopup";
+import { getCurrentPosition } from "../../../utils/geolocation";
 import styles from "./Capusle.module.css";
 import { FaImage, FaMicrophone, FaStickyNote } from "react-icons/fa";
+import MDEditor from "@uiw/react-md-editor";
+import "@uiw/react-md-editor/markdown-editor.css";
+import "@uiw/react-markdown-preview/markdown.css";
 
 const colors = ["#5A4FFF", "#F7A72B", "#47CF73", "#DD2D6C", "#AC58FF"];
 const emojis = ["🌟", "💕", "🎯", "🎓", "🌈", "🔥"];
@@ -16,11 +21,42 @@ export default function CreateCapsuleModal({ isOpen, onClose, onSubmit }) {
   const [privacy, setPrivacy] = useState("Private");
   const [surpriseMode, setSurpriseMode] = useState(false);
 
-  const handleCreate = () => {
+  const [validationErrors, setValidationErrors] = useState([]);
+  const [showValidationPopup, setShowValidationPopup] = useState(false);
+
+  const validateForm = () => {
+    const errors = [];
+    if (!title.trim()) {
+      errors.push("Capsule title is required");
+    }
+
+    if (!message.trim()) {
+      errors.push("Message to future self is required");
+    }
+
     if (!revealDate) {
-      alert("Reveal date is required!");
+      errors.push("Reveal date is required");
+    } else {
+      const selectedDate = new Date(revealDate);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      if (selectedDate <= today) {
+        errors.push("Reveal date must be in the future");
+      }
+    }
+
+    return errors;
+  };
+
+  const handleCreate = async () => {
+    const errors = validateForm();
+    if (errors.length > 0) {
+      setValidationErrors(errors);
+      setShowValidationPopup(true);
       return;
     }
+
     const data = {
       title,
       message,
@@ -30,32 +66,55 @@ export default function CreateCapsuleModal({ isOpen, onClose, onSubmit }) {
       privacy,
       surpriseMode,
     };
+    console.log("Attempting to get GPS coordinates...");
+    try {
+      const position = await getCurrentPosition();
+      data.latitude = position.latitude;
+      data.longitude = position.longitude;
+      console.log("gps coordinates obtained successfully:", {
+        latitude: position.latitude,
+        longitude: position.longitude,
+        accuracy: position.accuracy,
+      });
+    } catch {
+      console.log("gps coordinates failed");
+    }
+
     onSubmit(data);
     console.log(data);
     onClose();
   };
+
+  const closeValidationPopup = () => setShowValidationPopup(false);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className={styles.modalContainer}>
         <h2 className={styles.title}>Create Time Capsule</h2>
 
-        <label className={styles.label}>Capsule Title</label>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Give your capsule a memorable title..."
-          className={styles.input}
-        />
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>Capsule Title</label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Give your capsule a memorable title..."
+            className={styles.input}
+          />
+        </div>
 
-        <label className={styles.label}>Message to Future Self</label>
-        <textarea
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Write a message to your future self..."
-          className={styles.textarea}
-        />
+        <div className={styles.inputGroupSpec}>
+          <label className={styles.label}>Message to Future Self</label>
+          <div className={styles.markdownContainer}>
+            <MDEditor
+              value={message}
+              onChange={setMessage}
+              placeholder="Write a message to your future self... Supports **markdown** formatting!"
+              data-color-mode="light"
+              height={200}
+            />
+          </div>
+        </div>
 
         <div className={styles.row}>
           <div>
@@ -91,30 +150,16 @@ export default function CreateCapsuleModal({ isOpen, onClose, onSubmit }) {
             </div>
           </div>
         </div>
-
-        <div className={styles.attachments}>
-          <p className={styles.sectionLabel}>Attachments</p>
-          <div className={styles.attachmentRow}>
-            <button className={styles.attachmentBtn}>
-              <FaImage /> Add Image
-            </button>
-            <button className={styles.attachmentBtn}>
-              <FaMicrophone /> Record Audio
-            </button>
-            <button className={styles.attachmentBtn}>
-              <FaStickyNote /> Add Note
-            </button>
-          </div>
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>Reveal Date</label>
+          <input
+            type="date"
+            required
+            value={revealDate}
+            onChange={(e) => setRevealDate(e.target.value)}
+            className={styles.input}
+          />
         </div>
-
-        <label className={styles.label}>Reveal Date</label>
-        <input
-          type="date"
-          required
-          value={revealDate}
-          onChange={(e) => setRevealDate(e.target.value)}
-          className={styles.input}
-        />
 
         <p className={styles.sectionLabel}>Privacy</p>
         <div className={styles.privacyOptions}>
@@ -146,6 +191,11 @@ export default function CreateCapsuleModal({ isOpen, onClose, onSubmit }) {
           <Button label="Create Capsule" onClick={handleCreate} />
         </div>
       </div>
+      <ValidationPopup
+        isOpen={showValidationPopup}
+        onClose={closeValidationPopup}
+        messages={validationErrors}
+      />
     </Modal>
   );
 }

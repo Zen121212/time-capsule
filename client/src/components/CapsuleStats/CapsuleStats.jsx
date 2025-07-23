@@ -1,39 +1,50 @@
+import styles from "./CapsuleStats.module.css";
+import calendarIcon from "../../assets/icons/png/calendar.png";
+import clockIcon from "../../assets/icons/png/clock.png";
+import eyeIcon from "../../assets/icons/png/eye.png";
+import globeIcon from "../../assets/icons/png/globe.png";
+import { getDaysLeft } from "../../utils/dateConverter";
+
 function CapsuleStats({ capsules }) {
   const total = capsules.length;
-  const revealed = capsules.filter((c) => c.revealDate <= 0).length;
-  const waiting = capsules.filter((c) => c.revealDate > 0).length;
-  const publicCount = capsules.filter((c) => c.privacy === "public").length;
+  const revealed = capsules.filter((c) => {
+    const daysLeft = getDaysLeft(c.revealDate);
+    return daysLeft !== null && daysLeft <= 0;
+  }).length;
+  const waiting = capsules.filter((c) => {
+    const daysLeft = getDaysLeft(c.revealDate);
+    return daysLeft === null || daysLeft > 0;
+  }).length;
+  const revealedPublic = capsules.filter((c) => {
+    const daysLeft = getDaysLeft(c.revealDate);
+    const isRevealed = daysLeft !== null && daysLeft <= 0;
+    return isRevealed && c.privacy === "Public";
+  }).length;
 
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
-        gap: "1rem",
-        marginTop: "2rem",
-      }}
-    >
-      <StatBox label="Total" count={total} color="#007bff" />
-      <StatBox label="Revealed" count={revealed} color="#28a745" />
-      <StatBox label="Waiting" count={waiting} color="#ffc107" />
-      <StatBox label="Public" count={publicCount} color="#17a2b8" />
+    <div className={styles.statsGrid}>
+      <StatBox label="Total Capsules" count={total} icon={calendarIcon} />
+      <StatBox label="Revealed" count={revealed} icon={eyeIcon} />
+      <StatBox label="Waiting" count={waiting} icon={clockIcon} />
+      <StatBox
+        label="Revealed Public"
+        count={revealedPublic}
+        icon={globeIcon}
+      />
     </div>
   );
 }
 
-function StatBox({ label, count, color }) {
+function StatBox({ label, count, icon }) {
   return (
-    <div
-      style={{
-        background: color,
-        color: "#fff",
-        padding: "1rem",
-        borderRadius: "8px",
-        textAlign: "center",
-      }}
-    >
-      <div style={{ fontSize: "1.5rem", fontWeight: "bold" }}>{count}</div>
-      <div style={{ fontSize: "0.9rem" }}>{label}</div>
+    <div className={`${styles.statBox}`}>
+      <div className={`${styles.statsNumber}`}>
+        <div className={styles.label}>{label}</div>
+        <div className={styles.count}>{count}</div>
+      </div>
+      <div className={`${styles.statsImages}`}>
+        <img src={icon} alt={`${label} icon`} className={styles.icon} />
+      </div>
     </div>
   );
 }

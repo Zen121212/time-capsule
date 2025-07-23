@@ -5,10 +5,11 @@
   margin-bottom: 1rem;
   background: #fff;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .circle {
-  height: 90px;
+  height: 130px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -36,7 +37,7 @@
   margin: 4px 0;
   color: #151515;
   display: -webkit-box;
-  -webkit-line-clamp: 2; /* number of lines */
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -77,4 +78,72 @@
 .actions {
   display: flex;
   gap: 0.5rem;
+}
+
+.shareContainer {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.shareButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background: #33b249;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.shareButton.copied {
+  background: #10b981;
+}
+
+.authorInfo {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: #888;
+  font-style: italic;
+}
+
+.unrevealed {
+  position: relative;
+  border: 2px solid #e2e8f0;
+}
+
+.unrevealed::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  pointer-events: none;
+  border-radius: 8px;
+}
+
+.blurred {
+  filter: blur(4px);
+  -webkit-filter: blur(4px);
+  user-select: none;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.countdownContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
 }

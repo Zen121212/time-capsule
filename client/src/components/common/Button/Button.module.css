@@ -10,21 +10,13 @@
 }
 
 .button--primary {
-  background-color: #4f46e5;
+  background-color: #33b249;
   color: #ffffff;
-}
-
-.button--primary:hover {
-  background-color: #4338ca;
 }
 
 .button--secondary {
-  background-color: #6c757d;
+  background-color: #33b249;
   color: #ffffff;
-}
-
-.button--secondary:hover {
-  background-color: #5a6268;
 }
 
 .button--danger {

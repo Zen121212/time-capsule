@@ -19,15 +19,22 @@ class TimeCapsuleFactory extends Factory
     {
         $futureDate = fake()->dateTimeBetween('+1 month', '+2 years');
         
+        $city = fake()->city();
+        $country = fake()->country();
+        $latitude = fake()->latitude();
+        $longitude = fake()->longitude();
+        
         return [
             'title' => fake()->sentence(3, true),
             'message' => fake()->paragraph(3),
-            'location' => fake()->city(),
-            'reveal_date' => $futureDate->format('Y-m-d H:i:s'), // Using timestamp as integer
-            'is_public' => fake()->boolean(70), // 70% chance of being public
+            'location' => $city . ', ' . $country,
+            'latitude' => $latitude,
+            'longitude' => $longitude,
+            'reveal_date' => $futureDate->format('Y-m-d H:i:s'),
+            'is_public' => true,
             'color' => fake()->hexColor(),
-            'emoji' => fake()->randomElement(['🎉', '❤️', '🌟', '🚀', '🎈', '🌸', '⭐', '🎭']),
-            'privacy' => fake()->randomElement(['Public', 'Private']),
+            'emoji' => fake()->randomElement(['🌟', '💕', '🎯', '🎓', '🌈', '🔥']),
+            'privacy' => 'public',
             'created_at' => fake()->dateTimeBetween('-6 months', 'now'),
         ];
     }

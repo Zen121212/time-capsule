@@ -1,23 +1,21 @@
-import axios from 'axios';
+import axios from "axios";
 
-// Create axios instance with base configuration
 const api = axios.create({
-  baseURL: 'http://localhost:8000/api', // Laravel API base URL
+  baseURL: "http://localhost:8081/api",
   headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
+    "Content-Type": "application/json",
+    Accept: "application/json",
   },
 });
 
-// Request interceptor to add auth token
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
-    
-    if (token && token !== 'undefined') {
+    const token = localStorage.getItem("token");
+
+    if (token && token !== "undefined") {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    
+
     return config;
   },
   (error) => {
@@ -25,16 +23,18 @@ api.interceptors.request.use(
   }
 );
 
-// Response interceptor to handle token refresh or logout on 401
 api.interceptors.response.use(
   (response) => {
     return response;
   },
   (error) => {
-    if (error.response?.status === 401) {
-      // Remove token and redirect to login
-      localStorage.removeItem('token');
-      window.location.href = '/';
+    if (
+      error.response?.status === 401 &&
+      !error.config?.url?.includes("/login") &&
+      !error.config?.url?.includes("/register")
+    ) {
+      localStorage.removeItem("token");
+      window.location.href = "/";
     }
     return Promise.reject(error);
   }

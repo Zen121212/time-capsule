@@ -17,6 +17,11 @@ return Application::configure(basePath: dirname(__DIR__))
             App\Http\Middleware\ForceJsonResponse::class,
             App\Http\Middleware\Cors::class,
         ]);
+        
+        // Configure authentication to return JSON for API routes
+        $middleware->redirectGuestsTo(function () {
+            return request()->expectsJson() ? null : '/login';
+        });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

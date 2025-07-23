@@ -1,8 +1,13 @@
 #root {
-  max-width: 1280px;
+  min-height: 100vh;
+}
+
+/* Main content container */
+main {
+  max-width: 900px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
+  text-align: left;
 }
 
 .logo {

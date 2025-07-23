@@ -1,0 +1,44 @@
+.countdown {
+  display: flex;
+  align-items: center;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.timeUnit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 3px;
+}
+
+.number {
+  font-size: 0.9rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.label {
+  font-size: 0.6rem;
+  margin-top: 2px;
+}
+
+.separator {
+  font-size: 0.9rem;
+  font-weight: bold;
+  line-height: 1;
+  align-self: flex-start;
+  margin-top: 0;
+}
+
+.revealed {
+  font-size: 0.8rem;
+  color: #666;
+  font-weight: normal;
+}
+
+.ready {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #666;
+}
+

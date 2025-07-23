@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TimeCapsuleController;
 
-// Handle OPTIONS requests for CORS
 Route::options('{any}', function () {
     return response('', 200)
         ->header('Access-Control-Allow-Origin', '*')
@@ -13,7 +12,6 @@ Route::options('{any}', function () {
         ->header('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, Authorization, X-Requested-With');
 })->where('any', '.*');
 
-// Force JSON response for all API routes
 Route::middleware(['api'])->group(function () {
     
     Route::get('/user', function (Request $request) {
@@ -27,12 +25,11 @@ Route::middleware(['api'])->group(function () {
         Route::post('refresh', 'refresh');
     });
     
-    // Public route for unlisted token access (no auth required)
     Route::get('time-capsules/unlisted/{token}', [TimeCapsuleController::class, 'showByToken']);
+    Route::get('time-capsules-public', [TimeCapsuleController::class, 'getPublicCapsules']);
     
     Route::middleware('auth:api')->group(function () {
         Route::apiResource('time-capsules', TimeCapsuleController::class);
-        Route::get('time-capsules-public', [TimeCapsuleController::class, 'getPublicCapsules']);
         Route::post('time-capsules/{timeCapsule}/share', [TimeCapsuleController::class, 'generateShareLink']);
     });
     
