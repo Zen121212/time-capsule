@@ -85,6 +85,8 @@ npm run preview
 - **Markdown Editor**: @uiw/react-md-editor
 - **Icons**: React Icons
 - **Styling**: CSS Modules
+- **Backend Framework**: Laravel 11
+- **Containerization**: Docker
 
 ## 🎯 Usage
 
