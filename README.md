@@ -85,6 +85,8 @@ npm run preview
 - **Markdown Editor**: @uiw/react-md-editor
 - **Icons**: React Icons
 - **Styling**: CSS Modules
+- **Backend Framework**: Laravel 11
+- **Containerization**: Docker
 
 ## 🎯 Usage
 
@@ -112,6 +114,5 @@ npm run preview
 - View all your capsules in the **Dashboard**
 - See statistics about total capsules, opened ones, and upcoming reveals
 - Click on any capsule to view its full details
-- Edit or delete capsules as needed
 
 _Start preserving your memories today with Time Capsule App! ⏳✨_
